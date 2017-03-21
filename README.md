@@ -1,4 +1,11 @@
-Be sure to check out the blog posts-
+# Stadium Weather Checker
 
-1. https://realpython.com/blog/python/the-ultimate-flask-front-end/
-1. https://realpython.com/blog/python/the-ultimate-flask-front-end-part-2/# weather-app-for-stadiums
+to run server:
+```
+sh run.sh
+```
+to build frontend:
+
+```
+gulp
+```
