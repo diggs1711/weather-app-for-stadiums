@@ -1,7 +1,6 @@
 /* custom styles */
 
 .container {
-  text-align: center;
   padding-top: 50px;
   max-width: 300px;
 }
@@ -20,4 +19,8 @@ input {
 ul {
   margin-left: 20px;
   text-align: left;
+}
+
+ul li {
+  list-style: none;
 }
