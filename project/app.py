@@ -20,8 +20,7 @@ def index():
 def hello():
     return render_template('hello.html')
 
-
-@app.route('/stadiums')
+@app.route('/stadiums.json', methods = ['GET'])
 def get_stadium_data():
     data = read_data('stadiums_20150302.csv')
     cities = get_cities(data)
