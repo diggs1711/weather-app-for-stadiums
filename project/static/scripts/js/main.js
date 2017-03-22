@@ -18,7 +18,7 @@ var DynamicSearch = React.createClass({displayName: "DynamicSearch",
       url: 'stadiums.json',
       dataType: 'json',
       success: function(data) {
-        console.log(data)
+        console.log(data);
         this.setState({data: data});
       }.bind(this),
       error: function(xhr, status, error) {
@@ -28,6 +28,7 @@ var DynamicSearch = React.createClass({displayName: "DynamicSearch",
   },
 
   render: function() {
+    this.fetchStadiums();
 
     var countries = this.props.items;
     var searchString = this.state.searchString.trim().toLowerCase();
