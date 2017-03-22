@@ -28,8 +28,6 @@ var DynamicSearch = React.createClass({displayName: "DynamicSearch",
   },
 
   render: function() {
-    this.fetchStadiums();
-
     var countries = this.props.items;
     var searchString = this.state.searchString.trim().toLowerCase();
 
