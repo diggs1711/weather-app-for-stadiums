@@ -1,53 +1,92 @@
-var DynamicSearch = React.createClass({
+;
+(function() {
+    var DynamicSearch = React.createClass({
+        displayName: "DynamicSearch",
 
-  // sets initial state
-  getInitialState: function(){
-    return { searchString: '' };
-  },
+        // sets initial state
+        getInitialState: function() {
+            return {
+                searchString: ''
+            };
+        },
 
-  // sets state, triggers render method
-  handleChange: function(event){
-    // grab value form input box
-    this.setState({searchString:event.target.value});
-    console.log("scope updated!");
-  },
+        // sets state, triggers render method
+        handleChange: function(event) {
+            // grab value form input box
+            this.setState({
+                searchString: event.target.value
+            });
+            console.log("scope updated!");
+        },
 
-  render: function() {
+        render: function() {
+            var countries = this.props.items;
+            var stadiums = countries["stadiums"];
+            var searchString = this.state.searchString.trim().toLowerCase();
 
-    var countries = this.props.items;
-    var searchString = this.state.searchString.trim().toLowerCase();
+            // filter countries list by value from input boxz
+            if (searchString.length > 0) {
+                stadiums = stadiums.filter(function(stadium) {
+                    return stadium.city.toLowerCase().match(searchString);
+                });
+            }
 
-    // filter countries list by value from input box
-    if(searchString.length > 0){
-      countries = countries.filter(function(country){
-        return country.name.toLowerCase().match( searchString );
-      });
-    }
+            return (
+                React.createElement("div", null,
+                    React.createElement("input", {
+                        type: "text",
+                        value: this.state.searchString,
+                        onChange: this.handleChange,
+                        placeholder: "Search!"
+                    }),
+                    React.createElement("ul", null,
+                        stadiums.map(function(stadium) {
+                            return React.createElement("li", null, stadium.city, " ")
+                        })
+                    )
+                )
+            )
+        }
 
-    return (
-      <div>
-        <input type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Search!" />
-        <ul>
-          { countries.map(function(country){ return <li>{country.name} </li> }) }
-        </ul>
-      </div>
-    )
-  }
+    });
 
-});
+    // list of countries, defined with JavaScript object literals
+    var stadiums = {
 
-// list of countries, defined with JavaScript object literals
-var countries = [
-  {"name": "Sweden"}, {"name": "China"}, {"name": "Peru"}, {"name": "Czech Republic"},
-  {"name": "Bolivia"}, {"name": "Latvia"}, {"name": "Samoa"}, {"name": "Armenia"},
-  {"name": "Greenland"}, {"name": "Cuba"}, {"name": "Western Sahara"}, {"name": "Ethiopia"},
-  {"name": "Malaysia"}, {"name": "Argentina"}, {"name": "Uganda"}, {"name": "Chile"},
-  {"name": "Aruba"}, {"name": "Japan"}, {"name": "Trinidad and Tobago"}, {"name": "Italy"},
-  {"name": "Cambodia"}, {"name": "Iceland"}, {"name": "Dominican Republic"}, {"name": "Turkey"},
-  {"name": "Spain"}, {"name": "Poland"}, {"name": "Haiti"}
-];
+        init: function() {
 
-ReactDOM.render(
-  <DynamicSearch items={ countries } />,
-  document.getElementById('main')
-);
+        },
+
+        stadiums: {
+
+        },
+
+        getStadiums: function() {
+            return this.stadiums;
+        },
+
+        fetchStadiums: function() {
+            $.ajax({
+                url: 'stadiums.json',
+                dataType: 'json',
+                success: function(data) {
+                    console.log("success")
+
+                    ReactDOM.render(
+                        React.createElement(DynamicSearch, {
+                            items: data
+                        }),
+                        document.getElementById('main')
+                    );
+
+                    stadiums = data;
+                }.bind(this),
+                error: function(xhr, status, error) {
+                    console.log('An error (' + status + ') occured:', error.toString());
+                }.bind(this)
+            });
+        },
+    };
+
+    stadiums.fetchStadiums();
+})();
