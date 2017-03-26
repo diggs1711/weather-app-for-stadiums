@@ -1,28 +1,87 @@
 ;
 (function() {
-    var DynamicSearch = React.createClass({
-        displayName: "DynamicSearch",
 
-        // sets initial state
-        getInitialState: function() {
-            return {
-                searchString: ''
-            };
-        },
+        var pubSub = {
+          events: [],
 
-        // sets state, triggers render method
-        handleChange: function(event) {
-            // grab value form input box
-            this.setState({
-                searchString: event.target.value
-            });
-            console.log("scope updated!");
-        },
+          publish: function(eve, data) {
+              this.events.map(function(e) {
+                if(e.eve === eve) {
+                  e.fn.call(e.scope, data);
+                }
+              })
+          },
 
-        render: function() {
-            var countries = this.props.items;
-            var stadiums = countries["stadiums"];
-            var searchString = this.state.searchString.trim().toLowerCase();
+          subscribe: function(eve, fn, scope) {
+
+            	this.events.push({
+                eve: eve,
+                fn: fn,
+                scope: scope
+              });
+
+          }
+        };
+
+        var stadiums = {
+            pubSub: pubSub,
+            init: function() {
+
+            },
+
+            stadiums: {
+
+            },
+
+            getStadiums: function() {
+                return this.stadiums;
+            },
+
+            fetchStadiums: function() {
+                $.ajax({
+                    url: 'stadiums.json',
+                    dataType: 'json',
+                    success: function(data) {
+                        stadiums = data;
+                        pubSub.publish("stadiumsLoaded", data);
+                    }.bind(this),
+                    error: function(xhr, status, error) {
+                        console.log('An error (' + status + ') occured:', error.toString());
+                    }.bind(this)
+                });
+
+            },
+        };
+
+
+
+        var app = {
+            pubSub: pubSub,
+            stadiums: stadiums,
+            stadiumList: null,
+
+            run: function() {
+                this.init();
+                this.stadiums.fetchStadiums();
+            },
+            // sets initial state
+            init: function() {
+                this.initEle();
+            },
+
+            initEle: function() {
+                this.stadiumList = document.querySelector('.stadium-list');
+            },
+
+            // sets state, triggers render method
+            handleChange: function(event) {
+
+            },
+
+            render: function(data) {
+                var countries = data;
+                var stadiums = countries["stadiums"];
+                /*var searchString = this.state.searchString.trim().toLowerCase();
 
             // filter countries list by value from input boxz
             if (searchString.length > 0) {
@@ -30,63 +89,19 @@
                     return stadium.city.toLowerCase().match(searchString);
                 });
             }
+*/
+                var self = this;
 
-            return (
-                React.createElement("div", null,
-                    React.createElement("input", {
-                        type: "text",
-                        value: this.state.searchString,
-                        onChange: this.handleChange,
-                        placeholder: "Search!"
-                    }),
-                    React.createElement("ul", null,
-                        stadiums.map(function(stadium) {
-                            return React.createElement("li", null, stadium.city, " ")
-                        })
-                    )
-                )
-            )
+                stadiums.map(function(stadium) {
+                    var e = document.createElement("li");
+                    e.innerText = stadium.city;
+                    this.stadium - self.stadiumList.appendChild(e);
+                })
+
         }
 
-    });
-
-    // list of countries, defined with JavaScript object literals
-    var stadiums = {
-
-        init: function() {
-
-        },
-
-        stadiums: {
-
-        },
-
-        getStadiums: function() {
-            return this.stadiums;
-        },
-
-        fetchStadiums: function() {
-            $.ajax({
-                url: 'stadiums.json',
-                dataType: 'json',
-                success: function(data) {
-                    console.log("success")
-
-                    ReactDOM.render(
-                        React.createElement(DynamicSearch, {
-                            items: data
-                        }),
-                        document.getElementById('main')
-                    );
-
-                    stadiums = data;
-                }.bind(this),
-                error: function(xhr, status, error) {
-                    console.log('An error (' + status + ') occured:', error.toString());
-                }.bind(this)
-            });
-        },
     };
 
-    stadiums.fetchStadiums();
+    pubSub.subscribe("stadiumsLoaded", app.render, app);
+    app.run();
 })();
