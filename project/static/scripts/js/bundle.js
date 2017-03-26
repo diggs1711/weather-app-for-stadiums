@@ -1,1 +1,218 @@
-!function(t){function n(e){if(i[e])return i[e].exports;var u=i[e]={i:e,l:!1,exports:{}};return t[e].call(u.exports,u,u.exports,n),u.l=!0,u.exports}var i={};return n.m=t,n.c=i,n.i=function(t){return t},n.d=function(t,i,e){n.o(t,i)||Object.defineProperty(t,i,{configurable:!1,enumerable:!0,get:e})},n.n=function(t){var i=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(i,"a",i),i},n.o=function(t,n){return Object.prototype.hasOwnProperty.call(t,n)},n.p="",n(n.s=2)}([function(t,n){!function(){var n={events:[],publish:function(t,n){this.events.map(function(i){i.eve===t&&i.fn.call(i.scope,n)})},subscribe:function(t,n,i){this.events.push({eve:t,fn:n,scope:i})}};t.exports=n}()},function(t,n,i){!function(){var n=i(0),e={pubSub:n,init:function(){},stadiums:{},getStadiums:function(){return this.stadiums},fetchStadiums:function(){$.ajax({url:"stadiums.json",dataType:"json",success:function(t){e=t,n.publish("stadiumsLoaded",t)}.bind(this),error:function(t,n,i){console.log("An error ("+n+") occured:",i.toString())}.bind(this)})}};t.exports=e}()},function(t,n,i){!function(){var t=i(0),n=i(1),e={pubSub:t,stadiums:n,stadiumList:null,run:function(){this.init(),this.stadiums.fetchStadiums()},init:function(){this.initEle()},initEle:function(){this.stadiumList=document.querySelector(".stadium-list")},handleChange:function(t){},render:function(t){var n=t,i=n.stadiums,e=this;i.map(function(t){var n=document.createElement("li");n.innerText=t.city,this.stadium-e.stadiumList.appendChild(n)})}};t.subscribe("stadiumsLoaded",e.render,e),e.run()}()}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+
+
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+
+/******/ 	// identity function for calling harmony imports with the correct context
+/******/ 	__webpack_require__.i = function(value) { return value; };
+
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports) {
+
+;(function() {
+  var pubSub = {
+    events: [],
+
+    publish: function(eve, data) {
+        this.events.map(function(e) {
+          if(e.eve === eve) {
+            e.fn.call(e.scope, data);
+          }
+        })
+    },
+
+    subscribe: function(eve, fn, scope) {
+
+        this.events.push({
+          eve: eve,
+          fn: fn,
+          scope: scope
+        });
+
+    }
+  };
+
+  module.exports = pubSub;
+})();
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+;(function() {
+        var pubSub = __webpack_require__(0)
+        var stadiums = {
+            pubSub: pubSub,
+            init: function() {
+
+            },
+
+            stadiums: {
+
+            },
+
+            getStadiums: function() {
+                return this.stadiums;
+            },
+
+            fetchStadiums: function() {
+                $.ajax({
+                    url: 'stadiums.json',
+                    dataType: 'json',
+                    success: function(data) {
+                        stadiums = data;
+                        pubSub.publish("stadiumsLoaded", data);
+                    }.bind(this),
+                    error: function(xhr, status, error) {
+                        console.log('An error (' + status + ') occured:', error.toString());
+                    }.bind(this)
+                });
+
+            },
+        };
+
+        module.exports = stadiums;
+})();
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+;
+(function() {
+    var pubSub = __webpack_require__(0);
+    var stadiums = __webpack_require__(1);
+
+    var app = {
+        pubSub: pubSub,
+        stadiums: stadiums,
+        stadiumList: null,
+
+        run: function() {
+            this.init();
+            this.stadiums.fetchStadiums();
+        },
+        // sets initial state
+        init: function() {
+            this.initEle();
+        },
+
+        initEle: function() {
+            this.stadiumList = document.querySelector('.stadium-list');
+        },
+
+        // sets state, triggers render method
+        handleChange: function(event) {
+
+        },
+
+        render: function(data) {
+            var self = this;
+            var countries = data;
+            var stadiums = countries["stadiums"];
+                /*var searchString = this.state.searchString.trim().toLowerCase();
+
+            // filter countries list by value from input boxz
+            if (searchString.length > 0) {
+                stadiums = stadiums.filter(function(stadium) {
+                    return stadium.city.toLowerCase().match(searchString);
+                });
+            }
+*/
+
+            stadiums.map(function(stadium) {
+                var e = document.createElement("li");
+                e.className = "stadium-list list-group-item"
+                var r = self.createWeatherInfoElement(stadium);
+                e.appendChild(r);
+                this.stadium - self.stadiumList.appendChild(e);
+            });
+
+        },
+
+        createWeatherInfoElement: function(s) {
+            var result = document.createElement("div");
+
+            for (var property in s) {
+                if (s.hasOwnProperty(property)) {
+                    var p = document.createElement("p");
+                    p.innerText = property + ": " + s[property];
+                    result.appendChild(p);
+                }
+            }
+
+            return result;
+        }
+
+    };
+
+    pubSub.subscribe("stadiumsLoaded", app.render, app);
+    app.run();
+})();
+
+
+/***/ })
+/******/ ]);

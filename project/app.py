@@ -20,35 +20,35 @@ def index():
 def hello():
     return render_template('hello.html')
 
-@app.route('/stadiums.json', methods = ['GET'])
+
+@app.route('/stadiums.json', methods=['GET'])
 def get_stadium_data():
     data = read_data('stadiums_20150302.csv')
-    cities = get_cities(data)
-    weather = create_array_of_weather_data_objects(cities)
+    d = extract_data(data)
+    weather = create_array_of_weather_data_objects(d)
 
     return jsonify(weather)
 
 
-def create_array_of_weather_data_objects(cities):
+def create_array_of_weather_data_objects(dat):
     pArr = {"stadiums": []}
 
     print("GETTING VALUES")
 
-    for c in cities:
-        p = get_weather_data(str(c))
+    for d in dat["stadiums"]:
+        p = get_weather_data(str(d['city']), d['team'], d['capacity'])
         pArr["stadiums"].append(p)
 
     return pArr
 
 
-def get_weather_data(city):
+def get_weather_data(city, team, capacity):
     owm = pyowm.OWM('3de7fb8fb1c069056680599cc817d3cb')
 
     observation = owm.weather_at_place(city)
 
     w = observation.get_weather()
-    w.get_wind()                  # {'speed': 4.6, 'deg': 330}
-    w.get_humidity()              # 87
+    w.get_humidity()
 
     temp = str(w.get_temperature('celsius')['temp'])
     wspeed = str(w.get_wind()['speed'])
@@ -57,6 +57,8 @@ def get_weather_data(city):
     d["city"] = city
     d["temp"] = temp
     d["wind_speed"] = wspeed
+    d["team"] = team
+    d["capacity"] = str(capacity)
 
     return d
 
@@ -69,6 +71,34 @@ def read_data(f):
 
 def get_cities(d):
     return d['City'].values()
+
+
+def get_team(d):
+    return d['Team'].values()
+
+
+def get_capacity(d):
+    return d['Capacity'].values()
+
+
+def extract_data(d):
+    cities = get_cities(d)
+    teams = get_team(d)
+    capacity = get_capacity(d)
+    data = {
+        "stadiums": []
+    }
+
+    for ind, val in enumerate(cities):
+        temp = {
+            'city': cities[ind],
+            'team': teams[ind],
+            'capacity': capacity[ind]
+        }
+
+        data["stadiums"].append(temp)
+
+    return data
 
 
 if __name__ == '__main__':
