@@ -13,13 +13,18 @@
       <div class="col-md-3 container">
         <h1>Weather at Stadiums</h1>
         <br>
-        <div id="main"></div>
+        <div id="main">
+          <div class="search">
+            <input type="text" onChange="handleChange()" placeholder="Search">
+            <ul class="stadium-list">
+
+            </ul>
+          </div>
+        </div>
       </div>
 
     <!-- scripts -->
-    <script src="{{ url_for('static', filename='bower_components/react/react.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='bower_components/react/react-dom.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='scripts/js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/js/bundle.js') }}"></script>
   </body>
 </html>

@@ -11,7 +11,6 @@ var size = require('gulp-size');
 
 gulp.task('transform', function () {
   var stream = gulp.src('./project/static/scripts/jsx/*.js')
-    .pipe(gulpBrowser.browserify({transform: ['reactify']}))
     .pipe(gulp.dest('./project/static/scripts/js/'))
     .pipe(size());
   return stream;
