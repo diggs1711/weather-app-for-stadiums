@@ -1,10 +1,43 @@
 ;
 (function() {
-    var DynamicSearch = React.createClass({
-        displayName: "DynamicSearch",
+
+    var stadiumController = {
+
+        init: function() {
+
+        },
+
+        stadiums: {
+
+        },
+
+        getStadiums: function() {
+            return this.stadiums;
+        },
+
+        fetchStadiums: function() {
+            $.ajax({
+                url: 'stadiums.json',
+                dataType: 'json',
+                success: function(data) {
+                    console.log("success");
+
+                    stadiums = data;
+                    return data;
+                }.bind(this),
+                error: function(xhr, status, error) {
+                    console.log('An error (' + status + ') occured:', error.toString());
+                }.bind(this)
+            });
+        },
+    };
+
+    var app = {
+
+       	stadium: stadiumController,
 
         // sets initial state
-        getInitialState: function() {
+        init: function() {
             return {
                 searchString: ''
             };
@@ -32,60 +65,10 @@
             }
 
             return (
-                React.createElement("div", null,
-                    React.createElement("input", {
-                        type: "text",
-                        value: this.state.searchString,
-                        onChange: this.handleChange,
-                        placeholder: "Search!"
-                    }),
-                    React.createElement("ul", null,
-                        stadiums.map(function(stadium) {
-                            return React.createElement("li", null, stadium.city, " ")
-                        })
-                    )
-                )
+                
             )
         }
 
-    });
-
-    // list of countries, defined with JavaScript object literals
-    var stadiums = {
-
-        init: function() {
-
-        },
-
-        stadiums: {
-
-        },
-
-        getStadiums: function() {
-            return this.stadiums;
-        },
-
-        fetchStadiums: function() {
-            $.ajax({
-                url: 'stadiums.json',
-                dataType: 'json',
-                success: function(data) {
-                    console.log("success")
-
-                    ReactDOM.render(
-                        React.createElement(DynamicSearch, {
-                            items: data
-                        }),
-                        document.getElementById('main')
-                    );
-
-                    stadiums = data;
-                }.bind(this),
-                error: function(xhr, status, error) {
-                    console.log('An error (' + status + ') occured:', error.toString());
-                }.bind(this)
-            });
-        },
     };
 
     stadiums.fetchStadiums();
