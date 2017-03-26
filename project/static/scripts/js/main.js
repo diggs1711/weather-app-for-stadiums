@@ -1,60 +1,8 @@
 ;
 (function() {
-
-        var pubSub = {
-          events: [],
-
-          publish: function(eve, data) {
-              this.events.map(function(e) {
-                if(e.eve === eve) {
-                  e.fn.call(e.scope, data);
-                }
-              })
-          },
-
-          subscribe: function(eve, fn, scope) {
-
-            	this.events.push({
-                eve: eve,
-                fn: fn,
-                scope: scope
-              });
-
-          }
-        };
-
-        var stadiums = {
-            pubSub: pubSub,
-            init: function() {
-
-            },
-
-            stadiums: {
-
-            },
-
-            getStadiums: function() {
-                return this.stadiums;
-            },
-
-            fetchStadiums: function() {
-                $.ajax({
-                    url: 'stadiums.json',
-                    dataType: 'json',
-                    success: function(data) {
-                        stadiums = data;
-                        pubSub.publish("stadiumsLoaded", data);
-                    }.bind(this),
-                    error: function(xhr, status, error) {
-                        console.log('An error (' + status + ') occured:', error.toString());
-                    }.bind(this)
-                });
-
-            },
-        };
-
-
-
+        var pubSub = require('./pubSub.js');
+        var stadiums = require('./stadiums.js');
+        
         var app = {
             pubSub: pubSub,
             stadiums: stadiums,
