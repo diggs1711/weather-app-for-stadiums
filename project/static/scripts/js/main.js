@@ -7,6 +7,7 @@
         pubSub: pubSub,
         stadiums: stadiums,
         stadiumList: null,
+        loadingEle: null,
 
         run: function() {
             this.init();
@@ -19,6 +20,7 @@
 
         initEle: function() {
             this.stadiumList = document.querySelector('.stadium-list');
+            this.loadingEle = document.querySelector('.loading');
         },
 
         // sets state, triggers render method
@@ -28,9 +30,9 @@
 
         render: function(data) {
             var self = this;
-            var countries = data;
-            var stadiums = countries["stadiums"];
-                /*var searchString = this.state.searchString.trim().toLowerCase();
+            var stadiums = data["stadiums"];
+            this.loadingEle.classList.add("hidden");
+            /*var searchString = this.state.searchString.trim().toLowerCase();
 
             // filter countries list by value from input boxz
             if (searchString.length > 0) {
@@ -39,10 +41,9 @@
                 });
             }
 */
-
             stadiums.map(function(stadium) {
                 var e = document.createElement("li");
-                e.className = "stadium-list list-group-item"
+                e.className = "list-group-item"
                 var r = self.createWeatherInfoElement(stadium);
                 e.appendChild(r);
                 this.stadium - self.stadiumList.appendChild(e);
@@ -52,6 +53,7 @@
 
         createWeatherInfoElement: function(s) {
             var result = document.createElement("div");
+            result.className = "stadium-list__item";
 
             for (var property in s) {
                 if (s.hasOwnProperty(property)) {
@@ -62,10 +64,16 @@
             }
 
             return result;
+        },
+
+        loadingElement: function() {
+
+            this.loadingEle.classList.remove("hidden");
         }
 
     };
 
     pubSub.subscribe("stadiumsLoaded", app.render, app);
+    pubSub.subscribe("loadingStadiums", app.loadingElement, app);
     app.run();
 })();

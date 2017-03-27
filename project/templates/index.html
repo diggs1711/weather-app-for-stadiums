@@ -3,7 +3,7 @@
 
 <head lang="en">
     <meta charset="UTF-8">
-    <title>Flask React</title>
+    <title>Stadium Weather</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- styles -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
@@ -29,7 +29,12 @@
     <div id="main container">
         <div class="search container">
             <div class="container">
-                <ul class="list-group stadium-list">
+                <div class="container loading hidden">
+                    <div class="spinner">
+                    </div>
+                    <p class="row">Loading Stadiums</p>
+                </div>
+                <ul class="list-group stadium-list col-md-3">
                 </ul>
             </div>
         </div>

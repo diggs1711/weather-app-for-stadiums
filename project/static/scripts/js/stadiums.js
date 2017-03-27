@@ -1,5 +1,6 @@
 ;(function() {
-        var pubSub = require('./pubSub.js')
+        var pubSub = require('./pubSub.js');
+
         var stadiums = {
             pubSub: pubSub,
             init: function() {
@@ -15,6 +16,8 @@
             },
 
             fetchStadiums: function() {
+                pubSub.publish("loadingStadiums", "");
+                
                 $.ajax({
                     url: 'stadiums.json',
                     dataType: 'json',
