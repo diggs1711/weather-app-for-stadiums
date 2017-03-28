@@ -8,6 +8,8 @@
         stadiums: stadiums,
         stadiumList: null,
         loadingEle: null,
+        inputSearchString: null,
+        searchString: "",
 
         run: function() {
             this.init();
@@ -16,11 +18,20 @@
         // sets initial state
         init: function() {
             this.initEle();
+            this.initEvents();
         },
 
         initEle: function() {
             this.stadiumList = document.querySelector('.stadium-list');
             this.loadingEle = document.querySelector('.loading');
+            this.inputSearchString = document.querySelector('.searchString');
+        },
+
+        initEvents: function() {
+            this.inputSearchString.addEventListener("change", function(e) {
+                console.log(e);
+                this.searchString = e.target.value;
+            })
         },
 
         // sets state, triggers render method
@@ -28,11 +39,15 @@
 
         },
 
+        filterCities: function() {
+
+        },
+
         render: function(data) {
             var self = this;
             var stadiums = data["stadiums"];
             this.loadingEle.classList.add("hidden");
-            /*var searchString = this.state.searchString.trim().toLowerCase();
+            var searchString = this.searchString.trim().toLowerCase();
 
             // filter countries list by value from input boxz
             if (searchString.length > 0) {
@@ -40,25 +55,22 @@
                     return stadium.city.toLowerCase().match(searchString);
                 });
             }
-*/
+
             stadiums.map(function(stadium) {
-                var e = document.createElement("li");
-                e.className = "list-group-item"
                 var r = self.createWeatherInfoElement(stadium);
-                e.appendChild(r);
-                this.stadium - self.stadiumList.appendChild(e);
+                this.stadium - self.stadiumList.appendChild(r);
             });
 
         },
 
         createWeatherInfoElement: function(s) {
-            var result = document.createElement("div");
+            var result = document.createElement("tr");
             result.className = "stadium-list__item";
 
             for (var property in s) {
                 if (s.hasOwnProperty(property)) {
-                    var p = document.createElement("p");
-                    p.innerText = property + ": " + s[property];
+                    var p = document.createElement("td");
+                    p.innerText = s[property];
                     result.appendChild(p);
                 }
             }
@@ -67,7 +79,6 @@
         },
 
         loadingElement: function() {
-
             this.loadingEle.classList.remove("hidden");
         }
 
