@@ -101,44 +101,6 @@
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-<<<<<<< HEAD
-;(function() {
-        var pubSub = __webpack_require__(0);
-
-        var stadiums = {
-            pubSub: pubSub,
-            init: function() {
-
-            },
-
-            stadiums: {
-
-            },
-
-            getStadiums: function() {
-                return this.stadiums;
-            },
-
-            fetchStadiums: function() {
-                pubSub.publish("loadingStadiums", "");
-                
-                $.ajax({
-                    url: 'stadiums.json',
-                    dataType: 'json',
-                    success: function(data) {
-                        stadiums = data;
-                        pubSub.publish("stadiumsLoaded", data);
-                    }.bind(this),
-                    error: function(xhr, status, error) {
-                        console.log('An error (' + status + ') occured:', error.toString());
-                    }.bind(this)
-                });
-
-            },
-        };
-
-        module.exports = stadiums;
-=======
 ;
 (function() {
     var pubSub = __webpack_require__(0);
@@ -176,7 +138,6 @@
     };
 
     module.exports = stadiums;
->>>>>>> ca8d1de91951935c625f7c8ddb587cc55e7bbafb
 })();
 
 
@@ -194,11 +155,8 @@
         stadiums: stadiums,
         stadiumList: null,
         loadingEle: null,
-<<<<<<< HEAD
-=======
         inputSearchString: null,
         searchString: "",
->>>>>>> ca8d1de91951935c625f7c8ddb587cc55e7bbafb
 
         run: function() {
             this.init();
@@ -207,17 +165,12 @@
         // sets initial state
         init: function() {
             this.initEle();
-<<<<<<< HEAD
-=======
             this.initEvents();
->>>>>>> ca8d1de91951935c625f7c8ddb587cc55e7bbafb
         },
 
         initEle: function() {
             this.stadiumList = document.querySelector('.stadium-list');
             this.loadingEle = document.querySelector('.loading');
-<<<<<<< HEAD
-=======
             this.inputSearchString = document.querySelector('.searchString');
         },
 
@@ -226,7 +179,6 @@
                 console.log(e);
                 this.searchString = e.target.value;
             })
->>>>>>> ca8d1de91951935c625f7c8ddb587cc55e7bbafb
         },
 
         // sets state, triggers render method
@@ -234,22 +186,15 @@
 
         },
 
-<<<<<<< HEAD
-=======
         filterCities: function() {
 
         },
 
->>>>>>> ca8d1de91951935c625f7c8ddb587cc55e7bbafb
         render: function(data) {
             var self = this;
             var stadiums = data["stadiums"];
             this.loadingEle.classList.add("hidden");
-<<<<<<< HEAD
-            /*var searchString = this.state.searchString.trim().toLowerCase();
-=======
             var searchString = this.searchString.trim().toLowerCase();
->>>>>>> ca8d1de91951935c625f7c8ddb587cc55e7bbafb
 
             // filter countries list by value from input boxz
             if (searchString.length > 0) {
@@ -257,41 +202,22 @@
                     return stadium.city.toLowerCase().match(searchString);
                 });
             }
-<<<<<<< HEAD
-*/
-            stadiums.map(function(stadium) {
-                var e = document.createElement("li");
-                e.className = "list-group-item"
-                var r = self.createWeatherInfoElement(stadium);
-                e.appendChild(r);
-                this.stadium - self.stadiumList.appendChild(e);
-=======
 
             stadiums.map(function(stadium) {
                 var r = self.createWeatherInfoElement(stadium);
                 this.stadium - self.stadiumList.appendChild(r);
->>>>>>> ca8d1de91951935c625f7c8ddb587cc55e7bbafb
             });
 
         },
 
         createWeatherInfoElement: function(s) {
-<<<<<<< HEAD
-            var result = document.createElement("div");
-=======
             var result = document.createElement("tr");
->>>>>>> ca8d1de91951935c625f7c8ddb587cc55e7bbafb
             result.className = "stadium-list__item";
 
             for (var property in s) {
                 if (s.hasOwnProperty(property)) {
-<<<<<<< HEAD
-                    var p = document.createElement("p");
-                    p.innerText = property + ": " + s[property];
-=======
                     var p = document.createElement("td");
                     p.innerText = s[property];
->>>>>>> ca8d1de91951935c625f7c8ddb587cc55e7bbafb
                     result.appendChild(p);
                 }
             }
@@ -300,10 +226,6 @@
         },
 
         loadingElement: function() {
-<<<<<<< HEAD
-
-=======
->>>>>>> ca8d1de91951935c625f7c8ddb587cc55e7bbafb
             this.loadingEle.classList.remove("hidden");
         }
 
