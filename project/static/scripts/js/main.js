@@ -1,4 +1,5 @@
 ;
+
 (function() {
     var pubSub = require('./pubSub.js');
     var stadiums = require('./stadiums.js');
@@ -10,6 +11,7 @@
         loadingEle: null,
         inputSearchString: null,
         searchString: "",
+        markers: [],
 
         run: function() {
             this.init();
@@ -45,6 +47,7 @@
 
         render: function(data) {
             var self = this;
+
             var stadiums = data["stadiums"];
             this.loadingEle.classList.add("hidden");
             var searchString = this.searchString.trim().toLowerCase();
@@ -61,6 +64,8 @@
                 this.stadium - self.stadiumList.appendChild(r);
             });
 
+            console.log(this.markers);
+
         },
 
         createWeatherInfoElement: function(s) {
@@ -68,12 +73,23 @@
 
             for (var property in s) {
                 if (s.hasOwnProperty(property)) {
-                    var p = document.createElement("td");
-                    p.innerText = s[property];
-                    result.appendChild(p);
+                    if (!(property === "longitude" || property === "latitude")) {
+                        var p = document.createElement("td");
+                        p.innerText = s[property];
+                        result.appendChild(p);
+                    }
                 }
             }
 
+            var long = s["longitude"];
+            var lat = s["latitude"];
+
+            var startMarker = new ol.Feature({
+                type: 'icon',
+                geometry: new ol.geom.Point([long, lat])
+            });
+
+            this.markers.push(startMarker);
             return result;
         },
 

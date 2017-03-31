@@ -36,13 +36,13 @@ def create_array_of_weather_data_objects(dat):
     print("GETTING VALUES")
 
     for d in dat["stadiums"]:
-        p = get_weather_data(str(d['city']), d['team'], d['capacity'])
+        p = get_weather_data(str(d['city']), d['team'], d['capacity'],d["longitude"], d["latitude"] )
         pArr["stadiums"].append(p)
 
     return pArr
 
 
-def get_weather_data(city, team, capacity):
+def get_weather_data(city, team, capacity, longitude, lat):
     owm = pyowm.OWM('3de7fb8fb1c069056680599cc817d3cb')
 
     observation = owm.weather_at_place(city)
@@ -59,6 +59,8 @@ def get_weather_data(city, team, capacity):
     d["wind_speed"] = wspeed
     d["team"] = team
     d["capacity"] = str(capacity)
+    d["longitude"] = longitude
+    d["latitude"] = lat
 
     return d
 
@@ -80,11 +82,19 @@ def get_team(d):
 def get_capacity(d):
     return d['Capacity'].values()
 
+def get_longitude(d):
+    return d['Longitude'].values()
+
+def get_latitude(d):
+    return d["Latitude"].values()
+
 
 def extract_data(d):
     cities = get_cities(d)
     teams = get_team(d)
     capacity = get_capacity(d)
+    Longitude = get_longitude(d)
+    Latitude = get_latitude(d)
     data = {
         "stadiums": []
     }
@@ -93,7 +103,9 @@ def extract_data(d):
         temp = {
             'city': cities[ind],
             'team': teams[ind],
-            'capacity': capacity[ind]
+            'capacity': capacity[ind],
+            'longitude': Longitude[ind],
+            'latitude': Latitude[ind]
         }
 
         data["stadiums"].append(temp)
