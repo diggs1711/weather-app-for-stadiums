@@ -59,13 +59,32 @@
     <script src="{{ url_for('static', filename='scripts/js/bundle.js') }}"></script>
     <script src="https://openlayers.org/en/v4.0.1/build/ol.js" type="text/javascript"></script>
     <script type="text/javascript">
+    var e = new ol.Feature({
+        geometry: new ol.geom.Point(ol.proj.fromLonLat([12.5, 41.9]))
+    });
+
+    e.setStyle(new ol.style.Style({
+        image: new ol.style.Icon( /** @type {olx.style.IconOptions} */ ({
+            src: "{{ url_for('static', filename='images/Leeds_United_Logo.png') }}",
+            size: [20,20]
+        }))
+    }));
+
+    var vectorSource = new ol.source.Vector({
+        features: [e]
+    });
+
+    var vectorLayer = new ol.layer.Vector({
+        source: vectorSource
+    });
+
+    var rasterLayer = new ol.layer.Tile({
+        source: new ol.source.OSM()
+    });
+
     var map = new ol.Map({
         target: 'map',
-        layers: [
-            new ol.layer.Tile({
-                source: new ol.source.OSM()
-            })
-        ],
+        layers: [rasterLayer,vectorLayer, ],
         view: new ol.View({
             center: ol.proj.fromLonLat([37.41, 8.82]),
             zoom: 4

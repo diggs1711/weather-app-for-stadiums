@@ -65,7 +65,6 @@
 
         createWeatherInfoElement: function(s) {
             var result = document.createElement("tr");
-            result.className = "stadium-list__item";
 
             for (var property in s) {
                 if (s.hasOwnProperty(property)) {
