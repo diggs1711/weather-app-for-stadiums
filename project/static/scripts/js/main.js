@@ -1,8 +1,11 @@
 ;
 
 (function() {
+    'use strict';
+
     var pubSub = require('./pubSub.js');
     var stadiums = require('./stadiums.js');
+    var map = require('./map.js');
 
     var app = {
         pubSub: pubSub,
@@ -11,6 +14,7 @@
         loadingEle: null,
         inputSearchString: null,
         searchString: "",
+        map: map,
         markers: [],
 
         run: function() {
@@ -21,6 +25,7 @@
         init: function() {
             this.initEle();
             this.initEvents();
+            this.map.init();
         },
 
         initEle: function() {
@@ -30,10 +35,12 @@
         },
 
         initEvents: function() {
-            this.inputSearchString.addEventListener("change", function(e) {
-                console.log(e);
-                this.searchString = e.target.value;
-            })
+            var self = this;
+            this.inputSearchString.addEventListener("keyup", self.filterCities.bind(self));
+        },
+
+        onInputSearchEvent: function() {
+
         },
 
         // sets state, triggers render method
@@ -41,8 +48,17 @@
 
         },
 
-        filterCities: function() {
+        filterCities: function() {  
+            this.searchString = this.inputSearchString.value;
+            var self = this;
 
+            var filtered = this.map.markers.filter(function(marker) {
+                var result = marker["I"]["name"].toLowerCase().indexOf(self.searchString.toLowerCase()) > -1;
+                return result;
+            });
+
+            pubSub.publish("inputSearch", filtered);
+            console.log(filtered);
         },
 
         render: function(data) {
@@ -52,19 +68,10 @@
             this.loadingEle.classList.add("hidden");
             var searchString = this.searchString.trim().toLowerCase();
 
-            // filter countries list by value from input boxz
-            if (searchString.length > 0) {
-                stadiums = stadiums.filter(function(stadium) {
-                    return stadium.city.toLowerCase().match(searchString);
-                });
-            }
-
             stadiums.map(function(stadium) {
                 var r = self.createWeatherInfoElement(stadium);
-                this.stadium - self.stadiumList.appendChild(r);
+                self.stadium - self.stadiumList.appendChild(r);
             });
-
-            console.log(this.markers);
 
         },
 
@@ -77,20 +84,25 @@
                         var p = document.createElement("td");
                         p.innerText = s[property];
                         result.appendChild(p);
+                    } else {
+
                     }
                 }
             }
 
-            var long = s["longitude"];
-            var lat = s["latitude"];
+            this.addMarker(s["longitude"], s["latitude"], s["city"]);
 
-            var startMarker = new ol.Feature({
-                type: 'icon',
-                geometry: new ol.geom.Point([long, lat])
-            });
 
-            this.markers.push(startMarker);
+            this.addMarkersToMap();
             return result;
+        },
+
+        addMarker: function(lon, lat, city) {
+            pubSub.publish("addMarker", [lon, lat, city]);
+        },
+
+        addMarkersToMap: function() {
+            pubSub.publish("addMarkersToMap", "");
         },
 
         loadingElement: function() {
@@ -100,6 +112,9 @@
     };
 
     pubSub.subscribe("stadiumsLoaded", app.render, app);
+    pubSub.subscribe("addMarkersToMap", map.addMarkersToMap, map);
     pubSub.subscribe("loadingStadiums", app.loadingElement, app);
+    pubSub.subscribe("addMarker", map.addMarker, map);
+    pubSub.subscribe("inputSearch", map.removeLayer, map);
     app.run();
 })();

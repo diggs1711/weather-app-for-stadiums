@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -99,6 +99,123 @@
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports) {
+
+;
+(function() {
+
+    var map = {
+        markers: [],
+        vectorLayer: null,
+        mapLayer: null,
+
+        init: function() {
+            this.initElements();
+        },
+
+        initElements: function() {
+            var self = this;
+
+            this.mapLayer = new ol.Map({
+                target: 'map',
+                layers: [
+                    new ol.layer.Tile({
+                        source: new ol.source.OSM()
+                    })
+                ],
+                view: new ol.View({
+                    center: ol.proj.fromLonLat([2.3522, 48.8566]),
+                    zoom: 4
+                })
+            });
+
+        },
+
+        addMarker: function(geo) {
+            var self = this;
+
+            lat = geo[1];
+            lon = geo[0];
+            city = geo[2];
+
+            var m = new ol.Feature({
+                type: 'icon',
+                name: city,
+                geometry: new ol.geom.Point(ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857'))
+            });
+
+            self.markers.push(m);
+        },
+
+        addMarkersToMap: function() {
+        	var self = this;
+
+            this.vectorLayer = new ol.layer.Vector({
+
+                source: new ol.source.Vector({
+                    features: this.markers
+                }),
+
+                style: function(feature) {
+                    return self.styles[feature.get('type')];
+                }
+            });
+
+            this.mapLayer.addLayer(this.vectorLayer);
+        },
+
+        removeLayer: function() {
+        	this.mapLayer.removeLayer(this.vectorLayer);
+        },
+
+        styles: {
+            'route': new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    width: 6,
+                    color: [237, 212, 0, 0.8]
+                })
+            }),
+            'icon': new ol.style.Style({
+                image: new ol.style.Icon({
+                    anchor: [0.5, 1],
+                    src: 'https://openlayers.org/en/v4.0.1/examples/data/icon.png'
+                })
+            }),
+            'geoMarker': new ol.style.Style({
+                image: new ol.style.Circle({
+                    radius: 7,
+                    snapToPixel: false,
+                    fill: new ol.style.Fill({ color: 'black' }),
+                    stroke: new ol.style.Stroke({
+                        color: 'white',
+                        width: 2
+                    })
+                })
+            })
+        },
+
+        markerFactory: function(locations) {
+
+            locations.forEach(function(location) {
+                console.log(location);
+
+                var marker = new ol.Feature({
+                    type: 'icon',
+                    geometry: new ol.geom.Point(ol.proj.transform([-9, 53], 'EPSG:4326',
+                        'EPSG:3857'))
+                });
+
+            });
+        }
+
+    }
+
+    module.exports = map;
+})();
+
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 ;
@@ -142,14 +259,17 @@
 
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 ;
 
 (function() {
+    'use strict';
+
     var pubSub = __webpack_require__(0);
-    var stadiums = __webpack_require__(1);
+    var stadiums = __webpack_require__(2);
+    var map = __webpack_require__(1);
 
     var app = {
         pubSub: pubSub,
@@ -158,6 +278,7 @@
         loadingEle: null,
         inputSearchString: null,
         searchString: "",
+        map: map,
         markers: [],
 
         run: function() {
@@ -168,6 +289,7 @@
         init: function() {
             this.initEle();
             this.initEvents();
+            this.map.init();
         },
 
         initEle: function() {
@@ -177,10 +299,12 @@
         },
 
         initEvents: function() {
-            this.inputSearchString.addEventListener("change", function(e) {
-                console.log(e);
-                this.searchString = e.target.value;
-            })
+            var self = this;
+            this.inputSearchString.addEventListener("keyup", self.filterCities.bind(self));
+        },
+
+        onInputSearchEvent: function() {
+
         },
 
         // sets state, triggers render method
@@ -188,8 +312,17 @@
 
         },
 
-        filterCities: function() {
+        filterCities: function() {  
+            this.searchString = this.inputSearchString.value;
+            var self = this;
 
+            var filtered = this.map.markers.filter(function(marker) {
+                var result = marker["I"]["name"].toLowerCase().indexOf(self.searchString.toLowerCase()) > -1;
+                return result;
+            });
+
+            pubSub.publish("inputSearch", filtered);
+            console.log(filtered);
         },
 
         render: function(data) {
@@ -199,19 +332,10 @@
             this.loadingEle.classList.add("hidden");
             var searchString = this.searchString.trim().toLowerCase();
 
-            // filter countries list by value from input boxz
-            if (searchString.length > 0) {
-                stadiums = stadiums.filter(function(stadium) {
-                    return stadium.city.toLowerCase().match(searchString);
-                });
-            }
-
             stadiums.map(function(stadium) {
                 var r = self.createWeatherInfoElement(stadium);
-                this.stadium - self.stadiumList.appendChild(r);
+                self.stadium - self.stadiumList.appendChild(r);
             });
-
-            console.log(this.markers);
 
         },
 
@@ -224,20 +348,25 @@
                         var p = document.createElement("td");
                         p.innerText = s[property];
                         result.appendChild(p);
+                    } else {
+
                     }
                 }
             }
 
-            var long = s["longitude"];
-            var lat = s["latitude"];
+            this.addMarker(s["longitude"], s["latitude"], s["city"]);
 
-            var startMarker = new ol.Feature({
-                type: 'icon',
-                geometry: new ol.geom.Point([long, lat])
-            });
 
-            this.markers.push(startMarker);
+            this.addMarkersToMap();
             return result;
+        },
+
+        addMarker: function(lon, lat, city) {
+            pubSub.publish("addMarker", [lon, lat, city]);
+        },
+
+        addMarkersToMap: function() {
+            pubSub.publish("addMarkersToMap", "");
         },
 
         loadingElement: function() {
@@ -247,7 +376,10 @@
     };
 
     pubSub.subscribe("stadiumsLoaded", app.render, app);
+    pubSub.subscribe("addMarkersToMap", map.addMarkersToMap, map);
     pubSub.subscribe("loadingStadiums", app.loadingElement, app);
+    pubSub.subscribe("addMarker", map.addMarker, map);
+    pubSub.subscribe("inputSearch", map.removeLayer, map);
     app.run();
 })();
 
