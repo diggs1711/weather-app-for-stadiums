@@ -39,21 +39,12 @@
             this.inputSearchString.addEventListener("keyup", self.filterCities.bind(self));
         },
 
-        onInputSearchEvent: function() {
-
-        },
-
-        // sets state, triggers render method
-        handleChange: function(event) {
-
-        },
-
         filterCities: function() {  
             this.searchString = this.inputSearchString.value;
             var self = this;
 
             var filtered = this.map.markers.filter(function(marker) {
-                var result = marker["I"]["name"].toLowerCase().indexOf(self.searchString.toLowerCase()) > -1;
+                var result = marker.I.name.toLowerCase().indexOf(self.searchString.toLowerCase()) > -1;
                 return result;
             });
 
@@ -64,10 +55,9 @@
         render: function(data) {
             var self = this;
 
-            var stadiums = data["stadiums"];
+            var stadiums = data.stadiums;
             this.loadingEle.classList.add("hidden");
-            var searchString = this.searchString.trim().toLowerCase();
-
+        
             stadiums.map(function(stadium) {
                 var r = self.createWeatherInfoElement(stadium);
                 self.stadium - self.stadiumList.appendChild(r);
@@ -90,7 +80,7 @@
                 }
             }
 
-            this.addMarker(s["longitude"], s["latitude"], s["city"]);
+            this.addMarker(s.longitude, s.latitude, s.city);
 
 
             this.addMarkersToMap();

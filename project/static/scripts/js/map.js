@@ -1,5 +1,6 @@
 ;
 (function() {
+    'use strict';
 
     var map = {
         markers: [],
@@ -11,7 +12,6 @@
         },
 
         initElements: function() {
-            var self = this;
 
             this.mapLayer = new ol.Map({
                 target: 'map',
@@ -29,11 +29,9 @@
         },
 
         addMarker: function(geo) {
-            var self = this;
-
-            lat = geo[1];
-            lon = geo[0];
-            city = geo[2];
+            var lat = geo[1],
+                lon = geo[0],
+                city = geo[2];
 
             var m = new ol.Feature({
                 type: 'icon',
@@ -41,11 +39,11 @@
                 geometry: new ol.geom.Point(ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857'))
             });
 
-            self.markers.push(m);
+            this.markers.push(m);
         },
 
         addMarkersToMap: function() {
-        	var self = this;
+            var self = this;
 
             this.vectorLayer = new ol.layer.Vector({
 
@@ -62,7 +60,7 @@
         },
 
         removeLayer: function() {
-        	this.mapLayer.removeLayer(this.vectorLayer);
+            this.mapLayer.removeLayer(this.vectorLayer);
         },
 
         styles: {
@@ -94,7 +92,6 @@
         markerFactory: function(locations) {
 
             locations.forEach(function(location) {
-                console.log(location);
 
                 var marker = new ol.Feature({
                     type: 'icon',

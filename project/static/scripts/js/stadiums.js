@@ -1,5 +1,7 @@
 ;
 (function() {
+    'use strict';
+    
     var pubSub = require('./pubSub.js');
 
     var stadiums = {

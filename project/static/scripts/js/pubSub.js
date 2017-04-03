@@ -1,4 +1,6 @@
 ;(function() {
+  'use strict';
+  
   var pubSub = {
     events: [],
 
@@ -7,7 +9,7 @@
           if(e.eve === eve) {
             e.fn.call(e.scope, data);
           }
-        })
+        });
     },
 
     subscribe: function(eve, fn, scope) {
