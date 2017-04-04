@@ -44,12 +44,16 @@
             var self = this;
 
             var filtered = this.map.markers.filter(function(marker) {
-                var result = marker.I.name.toLowerCase().indexOf(self.searchString.toLowerCase()) > -1;
-                return result;
+                var markerName = marker.I.name;
+
+                if(markerName) {
+                    var result = markerName.toLowerCase().indexOf(self.searchString.toLowerCase()) > -1;
+                }
+                
+                return result || null;
             });
 
             pubSub.publish("inputSearch", filtered);
-            console.log(filtered);
         },
 
         render: function(data) {
@@ -63,6 +67,7 @@
                 self.stadium - self.stadiumList.appendChild(r);
             });
 
+            this.addMarkersToMap();
         },
 
         createWeatherInfoElement: function(s) {
@@ -82,8 +87,6 @@
 
             this.addMarker(s.longitude, s.latitude, s.city);
 
-
-            this.addMarkersToMap();
             return result;
         },
 
@@ -105,6 +108,6 @@
     pubSub.subscribe("addMarkersToMap", map.addMarkersToMap, map);
     pubSub.subscribe("loadingStadiums", app.loadingElement, app);
     pubSub.subscribe("addMarker", map.addMarker, map);
-    pubSub.subscribe("inputSearch", map.removeLayer, map);
+    pubSub.subscribe("inputSearch", map.filterMap, map);
     app.run();
 })();

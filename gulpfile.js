@@ -61,13 +61,13 @@ gulp.task('default', ['clean'], function() {
 gulp.task('watch', function() {
 
   // Watch .scss files
-  gulp.watch('src/styles/**/*.scss', ['styles']);
+  gulp.watch('project/static/styles/**/*.scss', ['styles']);
 
   // Watch .js files
-  gulp.watch('src/scripts/**/*.js', ['scripts']);
+  gulp.watch('project/static/scripts/**/*.js', ['scripts']);
 
   // Watch image files
-  gulp.watch('src/images/**/*', ['images']);
+  gulp.watch('project/static/images/**/*', ['images']);
 
   // Create LiveReload server
   livereload.listen();
