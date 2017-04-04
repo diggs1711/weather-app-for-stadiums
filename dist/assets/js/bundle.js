@@ -85,7 +85,7 @@
 	            this.inputSearchString.addEventListener("keyup", self.filterCities.bind(self));
 	        },
 
-	        filterCities: function() {  
+	        filterCities: function() {
 	            this.searchString = this.inputSearchString.value;
 	            var self = this;
 
@@ -95,7 +95,7 @@
 	                if(markerName) {
 	                    var result = markerName.toLowerCase().indexOf(self.searchString.toLowerCase()) > -1;
 	                }
-	                
+
 	                return result || null;
 	            });
 
@@ -107,7 +107,7 @@
 
 	            var stadiums = data.stadiums;
 	            this.loadingEle.classList.add("hidden");
-	        
+
 	            stadiums.map(function(stadium) {
 	                var r = self.createWeatherInfoElement(stadium);
 	                self.stadium - self.stadiumList.appendChild(r);
@@ -121,18 +121,14 @@
 
 	            for (var property in s) {
 	                if (s.hasOwnProperty(property)) {
-	                    if (!(property === "longitude" || property === "latitude")) {
-	                        var p = document.createElement("td");
-	                        p.innerText = s[property];
-	                        result.appendChild(p);
-	                    } else {
-
-	                    }
+	                    var p = document.createElement("td");
+	                    p.innerText = s[property];
+	                    result.appendChild(p);
 	                }
 	            }
 
 	            this.addMarker(s.longitude, s.latitude, s.city);
-
+	            this.addMarkersToMap();
 	            return result;
 	        },
 

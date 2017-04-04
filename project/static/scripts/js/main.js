@@ -49,7 +49,7 @@
                 if(markerName) {
                     var result = markerName.toLowerCase().indexOf(self.searchString.toLowerCase()) > -1;
                 }
-                
+
                 return result || null;
             });
 
@@ -82,12 +82,7 @@
             }
 
             this.addMarker(s.longitude, s.latitude, s.city);
-<<<<<<< HEAD
             this.addMarkersToMap();
-            
-=======
-
->>>>>>> 3a7bbf6d92221c3db07dc6c113be01c92a15e79a
             return result;
         },
 
