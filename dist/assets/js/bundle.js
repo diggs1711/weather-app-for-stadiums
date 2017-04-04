@@ -90,12 +90,16 @@
 	            var self = this;
 
 	            var filtered = this.map.markers.filter(function(marker) {
-	                var result = marker.I.name.toLowerCase().indexOf(self.searchString.toLowerCase()) > -1;
-	                return result;
+	                var markerName = marker.I.name;
+
+	                if(markerName) {
+	                    var result = markerName.toLowerCase().indexOf(self.searchString.toLowerCase()) > -1;
+	                }
+	                
+	                return result || null;
 	            });
 
 	            pubSub.publish("inputSearch", filtered);
-	            console.log(filtered);
 	        },
 
 	        render: function(data) {
@@ -109,6 +113,7 @@
 	                self.stadium - self.stadiumList.appendChild(r);
 	            });
 
+	            this.addMarkersToMap();
 	        },
 
 	        createWeatherInfoElement: function(s) {
@@ -128,8 +133,6 @@
 
 	            this.addMarker(s.longitude, s.latitude, s.city);
 
-
-	            this.addMarkersToMap();
 	            return result;
 	        },
 
@@ -151,7 +154,7 @@
 	    pubSub.subscribe("addMarkersToMap", map.addMarkersToMap, map);
 	    pubSub.subscribe("loadingStadiums", app.loadingElement, app);
 	    pubSub.subscribe("addMarker", map.addMarker, map);
-	    pubSub.subscribe("inputSearch", map.removeLayer, map);
+	    pubSub.subscribe("inputSearch", map.filterMap, map);
 	    app.run();
 	})();
 
@@ -247,26 +250,42 @@
 	        markers: [],
 	        vectorLayer: null,
 	        mapLayer: null,
+	        osmLayer: null,
+	        emptyLayer: null,
+	        filteredMarkers: [],
 
 	        init: function() {
 	            this.initElements();
+	            this.initMapLayers();
 	        },
 
 	        initElements: function() {
-
 	            this.mapLayer = new ol.Map({
 	                target: 'map',
-	                layers: [
-	                    new ol.layer.Tile({
-	                        source: new ol.source.OSM()
-	                    })
-	                ],
+	                layers: [],
 	                view: new ol.View({
 	                    center: ol.proj.fromLonLat([2.3522, 48.8566]),
 	                    zoom: 4
 	                })
 	            });
 
+	            this.emptyLayer = new ol.layer.Vector({
+	                source: new ol.source.Vector({
+	                    features: []
+	                })
+	            });
+
+	        },
+
+	        initMapLayers: function() {
+	            this.initLayerOSM();
+	            this.mapLayer.addLayer(this.osmLayer);
+	        },
+
+	        initLayerOSM: function() {
+	            this.osmLayer = new ol.layer.Tile({
+	                source: new ol.source.OSM()
+	            });
 	        },
 
 	        addMarker: function(geo) {
@@ -279,7 +298,6 @@
 	                name: city,
 	                geometry: new ol.geom.Point(ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857'))
 	            });
-
 	            this.markers.push(m);
 	        },
 
@@ -287,7 +305,6 @@
 	            var self = this;
 
 	            this.vectorLayer = new ol.layer.Vector({
-
 	                source: new ol.source.Vector({
 	                    features: this.markers
 	                }),
@@ -300,8 +317,22 @@
 	            this.mapLayer.addLayer(this.vectorLayer);
 	        },
 
-	        removeLayer: function() {
-	            this.mapLayer.removeLayer(this.vectorLayer);
+	        filterMap: function(data) {
+	        	var self = this;
+	        	this.filteredMarkers = data;
+
+	        	this.clearLayer();
+	        	this.addFilteredMarkers();
+	        },
+
+	        addFilteredMarkers: function() {
+	        	this.vectorLayer.getSource().addFeatures(this.filteredMarkers);
+	        	this.mapLayer.render();
+	        	this.mapLayer.updateSize();
+	        },
+
+	        clearLayer: function() {
+	        	this.vectorLayer.getSource().clear();
 	        },
 
 	        styles: {
