@@ -82,7 +82,6 @@
             }
 
             this.addMarker(s.longitude, s.latitude, s.city);
-            this.addMarkersToMap();
             return result;
         },
 
