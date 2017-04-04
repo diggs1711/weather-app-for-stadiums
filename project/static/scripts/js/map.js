@@ -78,6 +78,7 @@
         	this.filteredMarkers = data;
 
         	this.clearLayer();
+        	console.log("clear")
         	this.addFilteredMarkers();
         },
 
