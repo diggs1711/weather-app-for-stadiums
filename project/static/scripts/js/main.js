@@ -46,7 +46,7 @@
             var filtered = this.map.markers.filter(function(marker) {
                 var markerName = marker.I.name;
 
-                if(markerName) {
+                if (markerName) {
                     var result = markerName.toLowerCase().indexOf(self.searchString.toLowerCase()) > -1;
                 }
 
@@ -75,9 +75,11 @@
 
             for (var property in s) {
                 if (s.hasOwnProperty(property)) {
-                    var p = document.createElement("td");
-                    p.innerText = s[property];
-                    result.appendChild(p);
+                    if (!(String(property) === "longitude" || String(property) === "latitude")) {
+                        var p = document.createElement("td");
+                        p.innerText = s[property];
+                        result.appendChild(p);
+                    }
                 }
             }
 

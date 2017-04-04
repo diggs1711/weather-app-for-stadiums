@@ -92,7 +92,7 @@
 	            var filtered = this.map.markers.filter(function(marker) {
 	                var markerName = marker.I.name;
 
-	                if(markerName) {
+	                if (markerName) {
 	                    var result = markerName.toLowerCase().indexOf(self.searchString.toLowerCase()) > -1;
 	                }
 
@@ -121,9 +121,11 @@
 
 	            for (var property in s) {
 	                if (s.hasOwnProperty(property)) {
-	                    var p = document.createElement("td");
-	                    p.innerText = s[property];
-	                    result.appendChild(p);
+	                    if (!(String(property) === "longitude" || String(property) === "latitude")) {
+	                        var p = document.createElement("td");
+	                        p.innerText = s[property];
+	                        result.appendChild(p);
+	                    }
 	                }
 	            }
 
@@ -247,6 +249,7 @@
 	        mapLayer: null,
 	        osmLayer: null,
 	        emptyLayer: null,
+	        cloudLayer: null,
 	        filteredMarkers: [],
 
 	        init: function() {
@@ -274,12 +277,25 @@
 
 	        initMapLayers: function() {
 	            this.initLayerOSM();
+	            this.initCloudLayers();
 	            this.mapLayer.addLayer(this.osmLayer);
+	            this.mapLayer.addLayer(this.cloudLayer);
 	        },
 
 	        initLayerOSM: function() {
 	            this.osmLayer = new ol.layer.Tile({
 	                source: new ol.source.OSM()
+	            });
+	        },
+
+	        initCloudLayers: function() {
+	            this.cloudLayer = new ol.layer.Tile({
+	                title: "Clouds",
+	                source: new ol.source.XYZ({
+	                    // Replace this URL with a URL you generate. To generate an ID go to http://home.openweathermap.org/
+	                    // and click "map editor" in the top right corner. Make sure you're registered!
+	                    url: "http://maps.owm.io:8099/58e4198ae158e70001eb97f9/{z}/{x}/{y}?hash=1801cf76b88ae491674d97d8cae66107",
+	                })
 	            });
 	        },
 
@@ -313,21 +329,21 @@
 	        },
 
 	        filterMap: function(data) {
-	        	var self = this;
-	        	this.filteredMarkers = data;
+	            var self = this;
+	            this.filteredMarkers = data;
 
-	        	this.clearLayer();
-	        	this.addFilteredMarkers();
+	            this.clearLayer();
+	            this.addFilteredMarkers();
 	        },
 
 	        addFilteredMarkers: function() {
-	        	this.vectorLayer.getSource().addFeatures(this.filteredMarkers);
-	        	this.mapLayer.render();
-	        	this.mapLayer.updateSize();
+	            this.vectorLayer.getSource().addFeatures(this.filteredMarkers);
+	            this.mapLayer.render();
+	            this.mapLayer.updateSize();
 	        },
 
 	        clearLayer: function() {
-	        	this.vectorLayer.getSource().clear();
+	            this.vectorLayer.getSource().clear();
 	        },
 
 	        styles: {
@@ -347,7 +363,9 @@
 	                image: new ol.style.Circle({
 	                    radius: 7,
 	                    snapToPixel: false,
-	                    fill: new ol.style.Fill({ color: 'black' }),
+	                    fill: new ol.style.Fill({
+	                        color: 'black'
+	                    }),
 	                    stroke: new ol.style.Stroke({
 	                        color: 'white',
 	                        width: 2
