@@ -76,15 +76,49 @@
             for (var property in s) {
                 if (s.hasOwnProperty(property)) {
                     if (!(String(property) === "longitude" || String(property) === "latitude")) {
-                        var p = document.createElement("td");
+                        var td = document.createElement("td");
+                        var d = document.createElement("div");
+                        var p = document.createElement("p");
+                        p.className = "col-md-3";
                         p.innerText = s[property];
-                        result.appendChild(p);
+
+                        d.className = "weather-" + property;
+                        d.appendChild(p);
+
+                        if(property === "wind_speed") {
+                        	console.log(property)
+                        	var label = this.addWindLabel(s[property]);
+                        	d.appendChild(label);
+                        }
+
+                        td.appendChild(d);
+                        result.appendChild(td);
                     }
                 }
             }
 
             this.addMarker(s.longitude, s.latitude, s.city);
             return result;
+        },
+
+        addWindLabel: function(speed) {
+        	var el = document.createElement("span");
+
+        	if(speed <= 5) {
+        		el.innerText = "Calm"
+        		el.className = "label label-info";
+        	} else if(speed > 5 && speed <=15) {
+        		el.innerText = "Strong Breeze";
+        		el.className = "label label-success";
+        	} else if(speed > 15 && speed <= 25) {
+        		el.innerText = "Strong Gale";
+        		el.className = "label label-warning";
+        	} else if(speed > 25) {
+        		el.innerText = "Stormy";
+        		el.className = "label label-danger";
+        	}
+
+        	return el;
         },
 
         addMarker: function(lon, lat, city) {

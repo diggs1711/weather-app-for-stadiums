@@ -26,14 +26,6 @@
     text-align: center;
 }
 
-th {
-    padding-left: 0!important;
-}
-
-td {
-  padding: 2px !important;
-}
-
 .map {
     height: 400px;
     width: 100%;

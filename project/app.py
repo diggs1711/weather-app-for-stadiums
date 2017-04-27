@@ -4,11 +4,33 @@ import pandas as pd
 import os
 import pyowm
 import sys
+from forecastiopy import *
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
 app = Flask(__name__)
+
+api_key = "3403643b4b7d8e6fb46d1848e1267c02"
+lat = 53.3349740
+lng = -6.3320550
+
+fio = ForecastIO.ForecastIO(api_key, units=ForecastIO.ForecastIO.UNITS_SI,
+                            lang=ForecastIO.ForecastIO.LANG_ENGLISH,
+                            latitude=lat, longitude=lng)
+
+if fio.has_currently() is True:
+    currently = FIOCurrently.FIOCurrently(fio)
+    print 'Currently'
+    for item in currently.get().keys():
+        print item + ' : ' + unicode(currently.get()[item])
+    print
+    # Or access attributes directly
+    print currently.temperature
+    print currently.humidity
+    print
+else:
+    print 'No Currently data'
 
 
 @app.route('/')
@@ -36,7 +58,8 @@ def create_array_of_weather_data_objects(dat):
     print("GETTING VALUES")
 
     for d in dat["stadiums"]:
-        p = get_weather_data(str(d['city']), d['team'], d['capacity'],d["longitude"], d["latitude"] )
+        p = get_weather_data(str(d['city']), d['team'], d[
+                             'capacity'], d["longitude"], d["latitude"])
         pArr["stadiums"].append(p)
 
     return pArr
@@ -82,8 +105,10 @@ def get_team(d):
 def get_capacity(d):
     return d['Capacity'].values()
 
+
 def get_longitude(d):
     return d['Longitude'].values()
+
 
 def get_latitude(d):
     return d["Latitude"].values()
