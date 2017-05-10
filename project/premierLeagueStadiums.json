@@ -1,0 +1,202 @@
+[
+ {
+   "Team": "Arsenal ",
+   "FDCOUK": "Arsenal",
+   "City": "London ",
+   "Stadium": "Emirates Stadium ",
+   "Capacity": 60361,
+   "Latitude": 51.555,
+   "Longitude": -0.108611,
+   "Country": "England"
+ },
+ {
+   "Team": "A.F.C. Bournemouth",
+   "FDCOUK": "Bournemouth",
+   "City": "Bournemouth",
+   "Stadium": "Goldsands Stadium",
+   "Capacity": 12000,
+   "Latitude": 50.735277,
+   "Longitude": -1.83833,
+   "Country": "England"
+ },
+ {
+   "Team": "Chelsea ",
+   "FDCOUK": "Chelsea",
+   "City": "London ",
+   "Stadium": "Stamford Bridge ",
+   "Capacity": 42449,
+   "Latitude": 51.481667,
+   "Longitude": -0.191111,
+   "Country": "England"
+ },
+ {
+   "Team": "Everton ",
+   "FDCOUK": "Everton",
+   "City": "Liverpool ",
+   "Stadium": "Goodison Park ",
+   "Capacity": 40157,
+   "Latitude": 53.438889,
+   "Longitude": -2.966389,
+   "Country": "England"
+ },
+ {
+   "Team": "Liverpool ",
+   "FDCOUK": "Liverpool",
+   "City": "Liverpool ",
+   "Stadium": "Anfield ",
+   "Capacity": 45276,
+   "Latitude": 53.430819,
+   "Longitude": -2.960828,
+   "Country": "England"
+ },
+ {
+   "Team": "Manchester City ",
+   "FDCOUK": "Man City",
+   "City": "Manchester ",
+   "Stadium": "Etihad Stadium",
+   "Capacity": 47405,
+   "Latitude": 53.482989,
+   "Longitude": -2.200292,
+   "Country": "England"
+ },
+ {
+   "Team": "Manchester United ",
+   "FDCOUK": "Man United",
+   "City": "Stretford ",
+   "Stadium": "Old Trafford ",
+   "Capacity": 75811,
+   "Latitude": 53.463056,
+   "Longitude": -2.291389,
+   "Country": "England"
+ },
+ {
+   "Team": "Stoke City ",
+   "FDCOUK": "Stoke",
+   "City": "Stoke-on-Trent ",
+   "Stadium": "Britannia Stadium ",
+   "Capacity": 27740,
+   "Latitude": 52.988333,
+   "Longitude": -2.175556,
+   "Country": "England"
+ },
+ {
+   "Team": "Sunderland ",
+   "FDCOUK": "Sunderland",
+   "City": "Sunderland ",
+   "Stadium": "Stadium of Light ",
+   "Capacity": 48707,
+   "Latitude": 54.9144,
+   "Longitude": -1.3882,
+   "Country": "England"
+ },
+ {
+   "Team": "Swansea City ",
+   "FDCOUK": "Swansea",
+   "City": "Swansea ",
+   "Stadium": "Liberty Stadium ",
+   "Capacity": 20520,
+   "Latitude": 51.6422,
+   "Longitude": -3.9351,
+   "Country": "England"
+ },
+ {
+   "Team": "Tottenham Hotspur ",
+   "FDCOUK": "Tottenham",
+   "City": "London ",
+   "Stadium": "White Hart Lane ",
+   "Capacity": 36230,
+   "Latitude": 51.603333,
+   "Longitude": -0.065833,
+   "Country": "England"
+ },
+ {
+   "Team": "West Bromwich Albion ",
+   "FDCOUK": "West Brom",
+   "City": "West Bromwich ",
+   "Stadium": "The Hawthorns ",
+   "Capacity": 27877,
+   "Latitude": 52.509167,
+   "Longitude": -1.963889,
+   "Country": "England"
+ },
+ {
+   "Team": "Burnley ",
+   "FDCOUK": "Burnley",
+   "City": "Burnley ",
+   "Stadium": "Turf Moor ",
+   "Capacity": 22546,
+   "Latitude": 53.789167,
+   "Longitude": -2.230278,
+   "Country": "England"
+ },
+ {
+   "Team": "Crystal Palace ",
+   "FDCOUK": "Crystal Palace",
+   "City": "London ",
+   "Stadium": "Selhurst Park ",
+   "Capacity": 26309,
+   "Latitude": 51.398333,
+   "Longitude": -0.085556,
+   "Country": "England"
+ },
+ {
+   "Team": "Hull City ",
+   "FDCOUK": "Hull",
+   "City": "Kingston upon Hull ",
+   "Stadium": "KC Stadium ",
+   "Capacity": 25404,
+   "Latitude": 53.746111,
+   "Longitude": -0.367778,
+   "Country": "England"
+ },
+ {
+   "Team": "Leicester City ",
+   "FDCOUK": "Leicester",
+   "City": "Leicester ",
+   "Stadium": "King Power Stadium ",
+   "Capacity": 32500,
+   "Latitude": 52.620278,
+   "Longitude": -1.142222,
+   "Country": "England"
+ },
+ {
+   "Team": "Middlesbrough ",
+   "FDCOUK": "Middlesbrough",
+   "City": "Middlesbrough ",
+   "Stadium": "Riverside Stadium ",
+   "Capacity": 34988,
+   "Latitude": 54.578333,
+   "Longitude": -1.216944,
+   "Country": "England"
+ },
+ {
+   "Team": "Southampton ",
+   "FDCOUK": "Southampton",
+   "City": "Southampton ",
+   "Stadium": "St Mary's Stadium ",
+   "Capacity": 32689,
+   "Latitude": 50.905833,
+   "Longitude": -1.391111,
+   "Country": "England"
+ },
+ {
+   "Team": "Watford ",
+   "FDCOUK": "Watford",
+   "City": "Watford ",
+   "Stadium": "Vicarage Road ",
+   "Capacity": 23500,
+   "Latitude": 51.649836,
+   "Longitude": -0.401486,
+   "Country": "England"
+ },
+ {
+   "Team": "West Ham United ",
+   "FDCOUK": "West Ham",
+   "City": "London ",
+   "Stadium": "Boleyn Ground ",
+   "Capacity": 35303,
+   "Latitude": 51.531944,
+   "Longitude": 0.039444,
+   "Country": "England"
+ }
+]

@@ -1,5 +1,13 @@
 /* custom styles */
 
+body {
+    height: 100%;
+    color: #fff;
+    /*background: url("../images/soccer-rain.jpg") no-repeat;*/
+    transition: background ease-in-out 1s;
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
 .spinner {
     width: 100px;
     height: 100px;
@@ -20,6 +28,38 @@
     }
 }
 
+.wi {
+    margin-top: 15px;
+}
+
+.list-group-item {
+    padding: 5px 5px;
+    background-color: rgba(0,0,0,.4);
+}
+
+.thumbnail {
+    background-color: inherit;
+    width: 25px;
+    height: 30px;
+    display: inline-block;
+    /* makes it fit in like an <img> */
+    background-size: contain;
+    /* or contain */
+    background-position: center center;
+    background-repeat: no-repeat;
+    border: none;
+    margin-bottom: 2px;
+}
+
+.mapContainer {
+    margin-bottom: 10px;
+}
+
+.text-center {
+    text-align: center;
+    overflow: hidden;
+}
+
 .loading {
     margin-left: auto;
     margin-right: auto;
@@ -27,6 +67,33 @@
 }
 
 .map {
-    height: 400px;
+    height: 100%;
     width: 100%;
+}
+
+.temp,
+.wind-speed {
+    font-size: 18px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.mapContainer {
+    height: 100%;
+    width: 100%;
+}
+
+.matches {
+    position: absolute;
+    right: 10px;
+    z-index: 10000;
+    width: 250px;
+    height: 100%;
+    margin-top: 5px;
+    overflow-y: scroll;
+}
+
+.h3 {
+    font-size: 15px;
+    margin-top: 3px;
 }

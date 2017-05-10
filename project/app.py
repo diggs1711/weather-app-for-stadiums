@@ -3,6 +3,7 @@ from flask import jsonify
 import pandas as pd
 import os
 import pyowm
+import json
 import sys
 from forecastiopy import *
 
@@ -33,6 +34,7 @@ else:
     print 'No Currently data'
 
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -45,7 +47,7 @@ def hello():
 
 @app.route('/stadiums.json', methods=['GET'])
 def get_stadium_data():
-    data = read_data('stadiums_20150302.csv')
+    data = read_data('stadiums-premier-league.csv')
     d = extract_data(data)
     weather = create_array_of_weather_data_objects(d)
 
@@ -69,12 +71,16 @@ def get_weather_data(city, team, capacity, longitude, lat):
     owm = pyowm.OWM('3de7fb8fb1c069056680599cc817d3cb')
 
     observation = owm.weather_at_place(city)
+    l = observation.get_location()
 
     w = observation.get_weather()
     w.get_humidity()
 
     temp = str(w.get_temperature('celsius')['temp'])
     wspeed = str(w.get_wind()['speed'])
+
+    code = w.get_weather_code()
+    status = w.get_status()
     d = {}
 
     d["city"] = city
@@ -84,6 +90,8 @@ def get_weather_data(city, team, capacity, longitude, lat):
     d["capacity"] = str(capacity)
     d["longitude"] = longitude
     d["latitude"] = lat
+    d["code"] = code
+    d["status"] = status
 
     return d
 
