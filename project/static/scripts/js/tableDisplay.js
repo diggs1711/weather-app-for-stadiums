@@ -3,6 +3,7 @@
 
     var pubSub = require('./pubSub.js');
     var weatherIcons = require('./weather-icon.js');
+    var wi = new weatherIcons();
 
     var tableDisplay = {
 
@@ -42,11 +43,11 @@
 
                         if (String(property) === "temp") {
                             console.log(s['code'])
-                            var weatherIconEle = document.createElement("i");
-                            var iconClass = this.addWeatherIcon(s['code']);
+                            var weatherIconEle = document.createElement("canvas");
+                            var iconClass = s['icon'] + " icon-style";
                             weatherIconEle.className = iconClass;
 
-                            spanEle.className = "pull-left col-md-4 temp";
+                            spanEle.className = "pull-left col-md-5 temp";
                             spanEle.innerText = s[property] + "°";
                             spanEle.appendChild(weatherIconEle);
                             pBody.appendChild(spanEle);
@@ -122,6 +123,9 @@
                 var r = self.createWeatherInfoElement(stadium);
                 self.stadiumList.appendChild(r);
             });
+
+            console.log(wi)
+            wi.run();
 
             this.addMarkersToMap();
         },
