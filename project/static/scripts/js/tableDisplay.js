@@ -54,7 +54,7 @@
                         }
 
                         if (String(property) === "wind_speed") {
-                            spanEle.className = "pull-right col-md-4 wind-speed";
+                            spanEle.className = "pull-right col-md-5 wind-speed";
                             spanEle.innerText = s[property] + "m/s";
                             pBody.appendChild(spanEle);
                         }

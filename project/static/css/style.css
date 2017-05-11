@@ -1,4 +1,7 @@
 /* custom styles */
+::-webkit-scrollbar {
+display: none;
+}
 
 body {
     height: 100%;
@@ -61,7 +64,8 @@ body {
 }
 
 .icon-style {
-    height: 40px;
+    height: 34px;
+    margin-top: 10px;
 }
 
 .loading {
@@ -75,6 +79,10 @@ body {
     width: 100%;
 }
 
+.navbar {
+  margin-bottom: 0;
+}
+
 .temp,
 .wind-speed {
     font-size: 15px;
@@ -85,6 +93,7 @@ body {
 .mapContainer {
     height: 100%;
     width: 100%;
+    margin: 0;
 }
 
 .matches {
