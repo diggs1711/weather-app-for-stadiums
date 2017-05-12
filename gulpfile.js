@@ -17,9 +17,7 @@ var gulp = require('gulp'),
     livereload = require('gulp-livereload'),
     del = require('del');
 
-
 // tasks
-
 gulp.task('styles', function() {
   return sass('project/static/css/style.scss', { style: 'expanded' })
     .pipe(autoprefixer('last 2 version'))
