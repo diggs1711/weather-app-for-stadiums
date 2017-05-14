@@ -55,7 +55,6 @@
             pubSub.publish("inputSearch", filtered);
         }
 
-
     };
 
     pubSub.subscribe("stadiumsLoaded", tableDisplay.render, tableDisplay);

@@ -14,24 +14,15 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-inverse">
-        <!-- Navbar content -->
-        <div class="container-fluid">
-        <div class="navbar-header">
-          <a href="#" class="navbar-brand">Live Soccer Weather</a>
-        </div>
-            <form class="nav navbar-form navbar-right">
-                <div class="input-group">
-                    <input type="text" class="form-control searchString" placeholder="Search">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default" type="button">
-                            <i class="glyphicon glyphicon-search"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </nav>
+    <div class="container text-center header">
+        <img src="/static/images/logo.png">
+    </div>
+    
+    <div class="title">
+        <span class="summary">
+                Live weather at football stadiums
+            </span>
+    </div>
     <div id="main">
         <div class="mapContainer">
             <div id="map" class="map">
@@ -41,6 +32,18 @@
         </div>
     </div>
 
+    <div class="searchBar text-center hidden">
+        <form class="nav navbar-form navbar-center">
+            <div class="input-group">
+                <input type="text" class="form-control searchString" placeholder="Search">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="button">
+                        <i class="glyphicon glyphicon-search" width="30" height="30"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
     <!-- scripts -->
     <script src="https://openlayers.org/en/v4.0.1/build/ol.js" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js') }}"></script>

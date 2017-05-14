@@ -101,7 +101,6 @@
 	            pubSub.publish("inputSearch", filtered);
 	        }
 
-
 	    };
 
 	    pubSub.subscribe("stadiumsLoaded", tableDisplay.render, tableDisplay);
@@ -402,6 +401,16 @@
 	            }),
 
 	};
+
+	var logoFactory = function() {
+
+	    this.logos = logos;
+
+	};
+
+	logoFactory.prototype.createLogo = function(lat, long, name) {
+	    
+	}
 
 	module.exports = logos;
 

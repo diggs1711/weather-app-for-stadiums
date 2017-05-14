@@ -42,4 +42,14 @@ var logos = {
 
 };
 
+var logoFactory = function() {
+
+    this.logos = logos;
+
+};
+
+logoFactory.prototype.createLogo = function(lat, long, name) {
+    
+}
+
 module.exports = logos;
