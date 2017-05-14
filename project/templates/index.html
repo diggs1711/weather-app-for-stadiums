@@ -3,13 +3,14 @@
 
 <head lang="en">
     <meta charset="UTF-8">
-    <title>Stadium Weather</title>
+    <title>Soccer Weather</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- styles -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/weather-icons.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/weather-icons-wind.min.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="https://openlayers.org/en/v4.0.1/css/ol.css" type="text/css">
 </head>
 
@@ -17,21 +18,31 @@
     <div class="container text-center header">
         <img src="/static/images/logo.png">
     </div>
-    
     <div class="title">
         <span class="summary">
                 Live weather at football stadiums
             </span>
     </div>
     <div id="main">
+        <div class="info row">
+            <a href="https://darksky.net/poweredby/">
+                <img src="{{ url_for('static', filename='images/poweredby.png') }}">
+            </a>
+        </div>
         <div class="mapContainer">
-            <div id="map" class="map">
-                <ul class="list-group matches stadium-list">
-                </ul>
+            <div class="loadingIcon col-md-12">
+                <img src="{{ url_for('static', filename='images/loadingicon.gif') }}">
+                <span class="row col-md-12">
+                     <p>Loading...</p></span>
             </div>
+            <div class="mask">
+            </div>
+            <div id="map" class="map">
+            </div>
+            <ul class="list-group matches stadium-list">
+            </ul>
         </div>
     </div>
-
     <div class="searchBar text-center hidden">
         <form class="nav navbar-form navbar-center">
             <div class="input-group">

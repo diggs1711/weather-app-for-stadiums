@@ -1,27 +1,28 @@
-;(function() {
-  'use strict';
-  
-  var pubSub = {
-    events: [],
+;
+(function() {
+    'use strict';
 
-    publish: function(eve, data) {
-        this.events.map(function(e) {
-          if(e.eve === eve) {
-            e.fn.call(e.scope, data);
-          }
-        });
-    },
+    var pubSub = {
+        events: [],
 
-    subscribe: function(eve, fn, scope) {
+        publish: function(eve, data) {
+            this.events.map(function(e) {
+                if (e.eve === eve) {
+                    e.fn.call(e.scope, data);
+                }
+            });
+        },
 
-        this.events.push({
-          eve: eve,
-          fn: fn,
-          scope: scope
-        });
+        subscribe: function(eve, fn, scope) {
 
-    }
-  };
+            this.events.push({
+                eve: eve,
+                fn: fn,
+                scope: scope
+            });
 
-  module.exports = pubSub;
+        }
+    };
+
+    module.exports = pubSub;
 })();

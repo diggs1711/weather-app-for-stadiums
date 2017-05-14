@@ -28,7 +28,7 @@
         },
 
         initEle: function() {
-            
+
             //this.loadingEle = document.querySelector('.loading');
             this.inputSearchString = document.querySelector('.searchString');
         },
@@ -61,5 +61,6 @@
     pubSub.subscribe("addMarkersToMap", map.addMarkersToMap, map);
     pubSub.subscribe("addMarker", map.addMarker, map);
     pubSub.subscribe("inputSearch", map.filterMap, map);
+    pubSub.subscribe("loadingComplete", map.showMap, map);
     app.run();
 })();

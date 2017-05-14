@@ -13,8 +13,8 @@
     };
 
     weatherIcons.prototype.run = function() {
-    	this.setIcons();
-    	this.skycons.play();
+        this.setIcons();
+        this.skycons.play();
     }
 
     weatherIcons.prototype.setIcons = function() {
