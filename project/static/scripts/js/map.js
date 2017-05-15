@@ -14,23 +14,26 @@
         filteredMarkers: [],
         ele: null,
         loadingEle: null,
+        cloudBtn: null,
 
         init: function() {
             this.initElements();
             this.initMapLayers();
+            this.initEvents();
         },
 
         initElements: function() {
 
             this.map = document.querySelector(".map");
             this.loadingEle = document.querySelector(".loadingIcon");
+            this.cloudBtn = document.querySelector(".cloudBtn");
 
             this.mapLayer = new ol.Map({
                 interactions: ol.interaction.defaults({mouseWheelZoom:false}),
                 target: 'map',
                 layers: [],
                 view: new ol.View({
-                    center: ol.proj.fromLonLat([1.6, 52.2]),
+                    center: ol.proj.fromLonLat([0.8, 52.2]),
                     zoom: 6
                 })
             });
@@ -43,11 +46,15 @@
 
         },
 
+        initEvents: function() {
+            var self = this;
+
+            this.cloudBtn.addEventListener("click", self.addCloudLayer.bind(self));
+        },
+
         initMapLayers: function() {
-            this.initLayerOSM();
-            this.initCloudLayers();
-            this.mapLayer.addLayer(this.osmLayer);
-            this.mapLayer.addLayer(this.cloudLayer);
+            this.initLayerOSM();       
+            this.mapLayer.addLayer(this.osmLayer);       
         },
 
         initLayerOSM: function() {
@@ -65,6 +72,12 @@
                     url: "http://maps.owm.io:8099/58e4198ae158e70001eb97f9/{z}/{x}/{y}?hash=1801cf76b88ae491674d97d8cae66107",
                 })
             });
+        },
+
+        addCloudLayer: function() {
+            this.initCloudLayers();
+            this.mapLayer.addLayer(this.cloudLayer);
+            this.mapLayer.updateSize();
         },
 
         addMarker: function(geo) {
@@ -113,6 +126,7 @@
             this.loadingEle.classList.add("hidden");
             this.map.classList.remove("hidden");
             this.map.style.height = '350px';
+            this.mapLayer.updateSize();
         },
 
         addFilteredMarkers: function() {

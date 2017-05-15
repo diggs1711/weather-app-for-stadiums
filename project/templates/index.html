@@ -29,17 +29,20 @@
                 <img src="{{ url_for('static', filename='images/poweredby.png') }}">
             </a>
         </div>
+
+        <div class="controls row">
+            <button class="btn btn-default cloudBtn">Clouds</button>
+        </div>
         <div class="mapContainer">
             <div class="loadingIcon col-md-12">
                 <img src="{{ url_for('static', filename='images/loadingicon.gif') }}">
                 <span class="row col-md-12">
-                     <p>Loading...</p></span>
             </div>
             <div class="mask">
             </div>
             <div id="map" class="map">
             </div>
-            <ul class="list-group matches stadium-list">
+            <ul class="list-group matches stadium-list container">
             </ul>
         </div>
     </div>
