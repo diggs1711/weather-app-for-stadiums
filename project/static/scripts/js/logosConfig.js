@@ -50,6 +50,19 @@ var logoFactory = function() {
 
 logoFactory.prototype.createLogo = function(lat, long, name) {
 
+    var logo = {
+        name: name,
+        icon: new ol.style.Style({
+            image: new ol.style.Icon({
+                anchor: [0.5, 1],
+                size: [1000, 1000],
+                scale: 21 / 1000,
+                src: '../static/images/'+ name + '.png'
+            })
+        })
+    };
+
+
 }
 
 module.exports = logos;

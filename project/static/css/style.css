@@ -101,7 +101,7 @@ body {
 
 .list-group-item {
     padding: 5px 5px;
-    background-color: rgba(0, 0, 0, .4);
+    background-color: rgba(0, 0, 0, .5);
 }
 
 .thumbnail {
@@ -141,7 +141,6 @@ body {
 .map {
     height: 0px;
     width: 100%;
-    border: 1px solid #ccc;
 }
 
 .navbar {
@@ -162,13 +161,11 @@ body {
 }
 
 .matches {
-    position: absolute;
-    right: 10px;
-    z-index: 10000;
-    width: 250px;
-    height: 100%;
-    margin-top: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
     overflow-y: scroll;
+    width: 70%;
 }
 
 .h3 {
