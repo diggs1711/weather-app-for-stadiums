@@ -199,8 +199,9 @@
 	;
 	(function() {
 	    'use strict';
-	    var logos = __webpack_require__(4);
+	    var logoController = __webpack_require__(4);
 	    var pubSub = __webpack_require__(1);
+	    var logoCtrl = new logoController();
 
 	    var map = {
 	        markers: [],
@@ -213,6 +214,8 @@
 	        ele: null,
 	        loadingEle: null,
 	        cloudBtn: null,
+	        controls: null,
+	        selectedLayer: "",
 
 	        init: function() {
 	            this.initElements();
@@ -225,9 +228,12 @@
 	            this.map = document.querySelector(".map");
 	            this.loadingEle = document.querySelector(".loadingIcon");
 	            this.cloudBtn = document.querySelector(".cloudBtn");
+	            this.controls = document.querySelector(".controls");
 
 	            this.mapLayer = new ol.Map({
-	                interactions: ol.interaction.defaults({mouseWheelZoom:false}),
+	                interactions: ol.interaction.defaults({
+	                    mouseWheelZoom: false
+	                }),
 	                target: 'map',
 	                layers: [],
 	                view: new ol.View({
@@ -247,12 +253,12 @@
 	        initEvents: function() {
 	            var self = this;
 
-	            this.cloudBtn.addEventListener("click", self.addCloudLayer.bind(self));
+	            this.cloudBtn.addEventListener("click", self.cloudLayerControl.bind(self));
 	        },
 
 	        initMapLayers: function() {
-	            this.initLayerOSM();       
-	            this.mapLayer.addLayer(this.osmLayer);       
+	            this.initLayerOSM();
+	            this.mapLayer.addLayer(this.osmLayer);
 	        },
 
 	        initLayerOSM: function() {
@@ -272,10 +278,18 @@
 	            });
 	        },
 
-	        addCloudLayer: function() {
-	            this.initCloudLayers();
-	            this.mapLayer.addLayer(this.cloudLayer);
-	            this.mapLayer.updateSize();
+	        cloudLayerControl: function() {
+
+	            if (this.selectedLayer === "cloud") {
+	                this.mapLayer.removeLayer(this.cloudLayer);
+	                this.selectedLayer = "";
+	            } else {
+	                this.selectedLayer = "cloud";
+	                this.initCloudLayers();
+	                this.mapLayer.addLayer(this.cloudLayer);
+	                this.mapLayer.updateSize();
+	            }
+
 	        },
 
 	        addMarker: function(geo) {
@@ -290,6 +304,9 @@
 	                geometry: new ol.geom.Point(ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857'))
 	            });
 
+	            console.log(logoCtrl);
+	            logoCtrl.createLogo(lat, lon, team.trim());
+
 	            this.markers.push(m);
 	        },
 
@@ -303,7 +320,8 @@
 
 	                style: function(feature) {
 	                    var t = feature.get('team').toString().trim();
-	                    return logos[t];
+	                    console.log(logoCtrl.logos[t]);
+	                    return logoCtrl.logos[t];
 	                }
 	            });
 
@@ -323,6 +341,7 @@
 	            console.log('Loading Complete');
 	            this.loadingEle.classList.add("hidden");
 	            this.map.classList.remove("hidden");
+	            this.controls.classList.remove("hidden");
 	            this.map.style.height = '350px';
 	            this.mapLayer.updateSize();
 	        },
@@ -390,61 +409,30 @@
 /* 4 */
 /***/ function(module, exports) {
 
-	var logos = {
-	    'Manchester United': new ol.style.Style({
-	        image: new ol.style.Icon({
-	            anchor: [0.5, 1],
-	            size: [400, 400],
-	            scale: 21 / 400,
-	            src: '../static/images/Manchester United.png'
-	        })
-	    }),
-	    'Arsenal': new ol.style.Style({
-	        image: new ol.style.Icon({
-	            anchor: [0.5, 1],
-	            size: [1000, 1000],
-	            scale: 21 / 1000,
-	            src: '../static/images/Arsenal.png'
-	        })
-	    }),
-	    'Liverpool': new ol.style.Style({
-	        image: new ol.style.Icon({
-	            anchor: [0.5, 1],
-	            size: [1000, 1000],
-	            scale: 21 / 1000,
-	            src: '../static/images/Liverpool.png'
-	        })
-	    }),
-	    'Southampton': new ol.style.Style({
-	        image: new ol.style.Icon({
-	            anchor: [0.5, 1],
-	            size: [1000, 1000],
-	            scale: 21 / 1000,
-	            src: '../static/images/Southampton.png'
-	        })
-	    }),
-	    'Swansea City': new ol.style.Style({
-	        image: new ol.style.Icon({
-	            anchor: [0.5, 1],
-	            size: [1000, 1000],
-	            scale: 21 / 1000,
-	            src: '../static/images/Swansea City.png'
-	        })
-	    }),
+	;(function() {
+	  var logoFactory = function() {
+	      this.logos = {};
+	  };
 
-	};
+	  logoFactory.prototype.createLogo = function(lat, long, name) {
 
-	var logoFactory = function() {
+	      this.logos[name] = new ol.style.Style({
+	          image: new ol.style.Icon({
+	              anchor: [0.5, 1],
+	              size: [1000, 1000],
+	              scale: 21 / 1000,
+	              src: '../static/images/' + name + '.png'
+	          })
+	      });
+	  };
 
-	    this.logos = logos;
+	  logoFactory.prototype.init = function() {
 
-	};
 
-	logoFactory.prototype.createLogo = function(lat, long, name) {
+	  }
 
-	}
-
-	module.exports = logos;
+	  module.exports = logoFactory;
+	})();
 
 
 /***/ },
