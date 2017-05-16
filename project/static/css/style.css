@@ -16,7 +16,7 @@
 
 .controls {
   padding: 5px;
-  background-color: rgba(0, 0, 0, 0.77);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .navbar-inverse {
@@ -106,7 +106,7 @@ body {
 
 .list-group-item {
     padding: 5px 5px;
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0, 0, 0, .3);
 }
 
 .thumbnail {
